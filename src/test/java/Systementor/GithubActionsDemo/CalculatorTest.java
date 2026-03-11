@@ -61,7 +61,7 @@ class CalculatorTest {
 
     @Test
     void divideByZeroThrowsError(){
-        assertThrows(IllegalArgumentException.class, () -> calculator.divide(5,1));
+        assertThrows(IllegalArgumentException.class, () -> calculator.divide(5,0));
     }
 
 
