@@ -35,7 +35,7 @@ class CalculatorTest {
             System.out.println("3- Logger: Success! Expected 3 and got: " + result);
         }
         catch (AssertionError e) {
-            logger.info("3- Logger: Test failed! Expected 3 but got: " + result);
+            logger.info("3- Logger: Test failed!! Expected 3 but got: " + result);
             throw e;
         }
     }
