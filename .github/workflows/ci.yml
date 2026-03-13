@@ -35,7 +35,7 @@ jobs:
         #här ger vi kommandot för att bygga med maven, mvn = står för maven. -B står för build. package --file pom.xml gör att vi bygger från pom.xml filen
         # vilket är en fil där alla våra BEROENDEN/Dependencies(ENG) står listade. på så vis vet programmet vilka Dependencies som behövs finnas med för att lyckas
         # med det vi vill bygga i slutändan
-        run: mvn -B
+        run: mvn -B package --file pom.xml
 
       #här har vi sista steget i vår pipeline, där vi faktiskt KÖR testerna
       - name: Run Tests
