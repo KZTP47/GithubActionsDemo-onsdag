@@ -1,0 +1,42 @@
+#namnet för hela rubbet
+name: min-första-CI-yml-fil
+#när detta ska ske (t.ex. "jag äter NÄR jag är hungrig", i detta fall, jag kör dessa jobb NÄR jag gör en push på main eller en pull request på main)
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+#jobs = kan liknas vid maträtterna vi vill laga, och steps är stegen för att uppfylla receptet för varje individuell maträtt
+jobs:
+  #så detta blir då vår "maträtt"; BUILD
+  build:
+    #här säger vi bara vilken maskin vi kör detta på. för att allt är tomt annars i Github actions
+    runs-on: ubuntu-latest
+    #varje individuell steg för att uppfylla vårt recept
+    steps:
+      #steg 1
+      #här säger vi VAD vi gör. Vi uses/använder oss av ACTIONS för att sen checka ut
+      - uses: actions/checkout@v4
+
+      #steg 2; här ger vi den ett namn också
+      - name: Set up JDK 17
+        #återigen, vi använder oss av uses, för att kalla på actions som sen ser till att sätta upp java åt oss
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          #cache gör så att första gången vi kör testet så laddades maven ner, och SPARAS, så att i framtiden går testet snabbare
+          cache: 'maven'
+
+       #steg 3
+       #notera hur varje steg/step BÖRJAR med ett "-"
+       #vi ger den ett namn också även här
+      - name: build-with-maven
+        #här ger vi kommandot för att bygga med maven, mvn = står för maven. -B står för build. package --file pom.xml gör att vi bygger från pom.xml filen
+        # vilket är en fil där alla våra BEROENDEN/Dependencies(ENG) står listade. på så vis vet programmet vilka Dependencies som behövs finnas med för att lyckas
+        # med det vi vill bygga i slutändan
+        run: mvn -B package --file pom.xml
+
+      #här har vi sista steget i vår pipeline, där vi faktiskt KÖR testerna
+      - name: Run Tests
+        run: mvn test
